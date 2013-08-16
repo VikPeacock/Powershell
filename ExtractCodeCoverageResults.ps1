@@ -108,4 +108,3 @@ foreach ($assembly in $projectAssemblies) {
 
 Write-Output $table	
 Out-File -FilePath ("$outputPath\Stats.txt") -InputObject $table
-$table;
