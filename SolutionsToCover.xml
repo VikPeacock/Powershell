@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	Configuration file for:
+		- Executing unit tests on specified solutions
+		- Aggregating code coverage results into graphs/tables
+		
+	Assumption:		
+		- Unit test assemblies have been built
+		- Individual solutions have been configured for dotCover
+ -->
+<Root>
+	<CoverageScript Path="ExtractCodeCoverageResults.ps1" />
+	<CoverageConfiguration Name="CoverageConfig.xml" />
+	<dotCover Path="C:\Program Files (x86)\JetBrains\dotCover\v2.2\Bin\dotCover.exe" />		
+	<Output Path="C:\ALM\CodeCoverage" />
+	<Solutions>	
+		<Solution Name="KxCRM" Path="C:\TFS\CRM\CRM" />
+		<Solution Name="KxProposals" Path="C:\TFS\Proposals\Branches\Trunk" />
+	</Solutions>
+</Root>

@@ -1,5 +1,15 @@
+param 
+(
+    [string]$path, 
+    [string]$outputPath, 
+    $totalStats,
+    $solutionName
+)
+
+$absolutePath = ([string]($path) + "\" + "CoverageOutput.xml");
+
 # Read coverage XML
-$coverageOutput = [xml](Get-Content CoverageOutput.xml);
+$coverageOutput = [xml](Get-Content $absolutePath);
 
 # Get percentage covered
 $percentageCovered = $coverageOutput.Root.CoveragePercent;
@@ -10,11 +20,15 @@ $projectAssemblies = $coverageOutput.Root.Assembly;
 # Coverage stats
 $table = New-Object Collections.Generic.List[PSObject]
 
+# Store total coverage stats
+    $totalCoverageStats.Add($solutionName, $percentageCovered);
+
 foreach ($assembly in $projectAssemblies) {	
         
     # Load drawing assembly
     [void][Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms.DataVisualization")
-    $scriptpath = Split-Path -parent $MyInvocation.MyCommand.Definition
+    #$scriptpath = Split-Path -parent $MyInvocation.MyCommand.Definition
+    $scriptpath = $path;
      
     # Create code coverage chart container
     $coverageChart = New-object System.Windows.Forms.DataVisualization.Charting.Chart
@@ -65,7 +79,13 @@ foreach ($assembly in $projectAssemblies) {
     $coverageChart.Series["Covered"].Color = "Green"
     
     # save chart
-    $coverageChart.SaveImage(("$scriptpath\ALM\CodeCoverage\Graphs\" + $assembly.Name + ".png"),"png")	
+    $graphsDirectory = [string]($outputPath + "\Graphs");
+    if(-Not (Test-Path $graphsDirectory))
+    {
+        New-Item -path $graphsDirectory -type directory;
+    }
+    
+    $coverageChart.SaveImage(($outputPath + "\Graphs\" + $assembly.Name + ".png"),"png")	
       
     Write-Host “==============================================================="  
     Write-Host “Assembly: ” $assembly.Name
@@ -80,13 +100,8 @@ foreach ($assembly in $projectAssemblies) {
         
         $table.Add($stat)
     }
-    
-    Write-Host ""
-    Write-Host ""     
-    Write-Host ""
-    Write-Host ""
-    Write-Host ""	
 }
 
 Write-Output $table	
-Out-File -FilePath ("$scriptpath\ALM\CodeCoverage\Stats\Coverage.txt") -InputObject $table
+Out-File -FilePath ("$outputPath\Stats.txt") -InputObject $table
+$table;
