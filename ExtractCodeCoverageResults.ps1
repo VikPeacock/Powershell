@@ -2,7 +2,7 @@ param
 (
     [string]$path, 
     [string]$outputPath, 
-    $totalStats,
+    $totalCoverageStats,
     $solutionName
 )
 
@@ -20,8 +20,12 @@ $projectAssemblies = $coverageOutput.Root.Assembly;
 # Coverage stats
 $table = New-Object Collections.Generic.List[PSObject]
 
-# Store total coverage stats
-    $totalCoverageStats.Add($solutionName, $percentageCovered);
+# Store total coverage stats    
+$solutionStats = New-Object PSObject
+$solutionStats | Add-Member -type NoteProperty -name SolutionName  $solutionName
+$solutionStats | Add-Member -type NoteProperty -name PctCovered $percentageCovered
+$solutionStats | Add-Member -type NoteProperty -name PctNotCovered (100 - [int]$percentageCovered) 
+$totalCoverageStats.Add($solutionStats)
 
 foreach ($assembly in $projectAssemblies) {	
         
