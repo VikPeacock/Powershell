@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>AAA Test Method</Title>
+      <Shortcut>aaa</Shortcut>
+      <Description>Code snippet for a test method with Arrange, Act, Assert</Description>
+      <Author>Kx Development</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>Microsoft.VisualStudio.TestTools.UnitTesting</Namespace>
+        </Import>
+      </Imports>
+      <References>
+        <Reference>
+          <Assembly>Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</Assembly>
+        </Reference>
+      </References>
+      <Declarations>
+        <Literal>
+          <ID>MethodName</ID>
+          <ToolTip>The name of the method under test</ToolTip>
+          <Default>Method</Default>
+        </Literal>
+        <Literal>
+          <ID>StateUnderTest</ID>
+          <ToolTip>Specific contditions that lead to expected result</ToolTip>
+          <Default>State</Default>
+        </Literal>
+        <Literal>
+          <ID>ExpectedBehavior</ID>
+          <ToolTip>The expected result of the given state when the method is invoked</ToolTip>
+          <Default>Expectations</Default>
+        </Literal>
+        <Literal Editable="false">
+          <ID>TestMethod</ID>
+          <Function>SimpleTypeName(TestMethod)</Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[[$TestMethod$]
+      public void $MethodName$_$StateUnderTest$_$ExpectedBehavior$()
+      {
+          // Arrange
+          $end$
+          
+          // Act          
+          
+          // Assert          
+          
+      }
+      ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
